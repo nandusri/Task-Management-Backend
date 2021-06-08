@@ -6,4 +6,4 @@ from .serializers import ProjectsSerializer
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectsSerializer
-    queryset = Projects.objects.all()
+    queryset = Project.objects.all()
