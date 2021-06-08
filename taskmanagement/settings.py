@@ -70,6 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'taskmanagement.wsgi.application'
 
+AUTH_USER_MODEL = 'users.User'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
