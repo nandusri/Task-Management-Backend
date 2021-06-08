@@ -4,7 +4,9 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.hashers import make_password
 
 class UserDetailSerializer(serializers.ModelSerializer):
-    
+    """
+        Serializer for get user details
+    """
     class Meta:
         model = models.User
         fields = '__all__'
@@ -17,6 +19,9 @@ class UserDetailSerializer(serializers.ModelSerializer):
                         ,'user_permissions': {'write_only': True, 'required': False}}
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+        UserSerializer for signup user
+    """
     class Meta:
         model = models.User
         fields = '__all__'
