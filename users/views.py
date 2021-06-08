@@ -36,5 +36,36 @@ class UserViewSet(viewsets.ModelViewSet):
         user = user_serializer.save()
         token = Token.objects.create(user=user)
         data['token'] = token.key
-        print(user, data['token'])
         return Response({'data':data})
+    
+    
+    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    def login(self, request):
+        data = request.data
+        username = data.get('username', None)
+        password = data.get('password', None)
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                token = Token.objects.filter(user=user).first()
+                if not token:
+                    token = Token.objects.create(user=user)
+                return Response({
+                    "is_authenticated": True,
+                    "user": UserDetailSerializer(request.user).data,
+                    "token": token.key,
+                    "is_superuser": user.is_superuser
+                })
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        logout(request)
+        return Response({"logged_out": True})
