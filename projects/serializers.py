@@ -10,6 +10,8 @@ class ProjectSerializer(serializers.ModelSerializer):
         
 
 class TaskSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+    project_id = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all(), write_only=True, source='project')
 
     class Meta:
         model = Task
